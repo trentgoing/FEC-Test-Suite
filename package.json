@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-		"test-products": "jest __test__/products.test.js",
 		"test-qa": "jest __test__/qa.test.js",
 		"test-reviews": "jest __test__/reviews.test.js"
   },
