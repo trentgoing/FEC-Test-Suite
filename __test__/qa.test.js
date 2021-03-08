@@ -203,7 +203,7 @@ describe('Testing put qa mark an answer helpful endpoint', () => {
         }
         const prodId = await getCurIds()
         const tester = await getQuestions(prodId)
-        const goodLuck = await req.post(`/qa/questions/${tester}/answers`).send(data).set('Authorization', api_key)
+        const postAnswer = await req.post(`/qa/questions/${tester}/answers`).send(data).set('Authorization', api_key)
         const answers_obj = JSON.parse(responses[0].text)
         const firstAnswer = answers_obj.results[0]
 
