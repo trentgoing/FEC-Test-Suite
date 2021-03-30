@@ -1,3 +1,4 @@
+const { Console } = require('console');
 const request = require('supertest')
 require('dotenv').config();
 
@@ -164,6 +165,7 @@ describe('Testing put qa report a question endpoint', () => {
         //make another get request to confirm that the question has been reported and is no longer in questions list.
         const newQuestions = await request(api_url).get('/qa/questions').query(`product_id=${product_ids[0]}&count=10000`).set('Authorization', api_key)
         const { results } = newQuestions.body
+        
 
         expect(results.length).toEqual(questions_obj.results.length - 1)
         done()
@@ -185,7 +187,15 @@ describe('Testing put qa mark an answer helpful endpoint', () => {
         const tester = await getQuestions(prodId)
         const question_ids = [tester]
         const req = request(api_url);
-        const requests = question_ids.map((id) => {
+        // why does this break it?
+        let dataFirst = {
+            "body": "Yes it does fit true to size, I love it!",
+            "name": "jenn Martinez",
+            "email": "jmartinez@gmail.com",
+            "photos": []
+        }
+        const postAnswerPrior = await req.post(`/qa/questions/${tester}/answers`).send(dataFirst).set('Authorization', api_key)
+        const requests = question_ids.map(async (id) => {
             return Promise.resolve(
                 req.get(`/qa/questions/${id}/answers`).set('Authorization', api_key)
             )
@@ -195,17 +205,19 @@ describe('Testing put qa mark an answer helpful endpoint', () => {
 
 
     test('Should mark the answer helpful and confirm that it has been updated', async (done) => {
-        let data = {
-            "body": "Yes it does fit true to size, I love it!",
-            "name": "jenn Martinez",
-            "email": "jmartinez@gmail.com",
-            "photos": []
-        }
+        // let data = {
+        //     "body": "Yes it does fit true to size, I love it!",
+        //     "name": "jenn Martinez",
+        //     "email": "jmartinez@gmail.com",
+        //     "photos": []
+        // }
         const prodId = await getCurIds()
         const tester = await getQuestions(prodId)
-        const postAnswer = await req.post(`/qa/questions/${tester}/answers`).send(data).set('Authorization', api_key)
+        // const postAnswer = await req.post(`/qa/questions/${tester}/answers`).send(data).set('Authorization', api_key)
         const answers_obj = JSON.parse(responses[0].text)
         const firstAnswer = answers_obj.results[0]
+        
+        
 
         //Mark the first answer helpful in the list of answers for question 448
         const response = await req.put(`/qa/answers/${firstAnswer.answer_id}/helpful`).set('Authorization', api_key);

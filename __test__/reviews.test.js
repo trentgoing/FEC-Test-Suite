@@ -50,6 +50,7 @@ describe('Testing put review, add mark a review helpful endpoint', () => {
         
 
         // confirm helpfullness is updated
+        // Was this not done in the before ALL, can it be set in the descrine prior to beforeAll
         const idToRun = await getCurIds()
         const product_ids = [idToRun]
 
