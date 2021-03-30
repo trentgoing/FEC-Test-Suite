@@ -205,15 +205,15 @@ describe('Testing put qa mark an answer helpful endpoint', () => {
 
 
     test('Should mark the answer helpful and confirm that it has been updated', async (done) => {
-        let data = {
-            "body": "Yes it does fit true to size, I love it!",
-            "name": "jenn Martinez",
-            "email": "jmartinez@gmail.com",
-            "photos": []
-        }
+        // let data = {
+        //     "body": "Yes it does fit true to size, I love it!",
+        //     "name": "jenn Martinez",
+        //     "email": "jmartinez@gmail.com",
+        //     "photos": []
+        // }
         const prodId = await getCurIds()
         const tester = await getQuestions(prodId)
-        const postAnswer = await req.post(`/qa/questions/${tester}/answers`).send(data).set('Authorization', api_key)
+        // const postAnswer = await req.post(`/qa/questions/${tester}/answers`).send(data).set('Authorization', api_key)
         const answers_obj = JSON.parse(responses[0].text)
         const firstAnswer = answers_obj.results[0]
         
